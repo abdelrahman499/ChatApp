@@ -1,0 +1,103 @@
+<div class="chat-container mt-5">
+
+  <!-- Header -->
+  <div class="chat-header">
+    <h3 class="text-center my-2">
+      Welcome to <span class="text-warning">Room</span> Group
+    </h3>
+    <button (click)="leaveChat()" class="btn btn-danger">Leave Chat</button>
+  </div>
+
+  <!-- Main Layout -->
+  <div class="messaging">
+
+    <!-- LEFT: Connected Users -->
+    <div class="inbox-msg">
+      <div class="inbox-people">
+
+        <div class="headline-srch">
+          <div class="recent-heading">
+            <h4 class="text-white">Connected Users</h4>
+          </div>
+        </div>
+
+        <div class="srch-bar">
+          <div class="stylish-input-group">
+            <input type="text" class="search-bar" placeholder="Search" />
+            <span class="input-group-addon">
+              <button type="button">
+                <i class="fa fa-search" aria-hidden="true"></i>
+              </button>
+            </span>
+          </div>
+        </div>
+
+        <!-- Connected Users List -->
+        <div class="chat-people" *ngFor="let user of connectedUsers">
+          <div class="chat-img">
+            <img src="/R.png" alt="User Image" width="43" height="43" />
+          </div>
+          <div class="chat-ib mt-3">
+            <h5>{{ user }} <span class="online"></span></h5>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- RIGHT: Messages -->
+    <div class="mesgs">
+      <div class="msg_history" #scrollMe>
+
+        <ng-container *ngFor="let message of messages">
+
+          <!-- SYSTEM MESSAGE -->
+          <div class="text-center text-muted my-2" *ngIf="message.user === 'System'">
+            <small><i>{{ message.message }}</i></small>
+          </div>
+
+          <!-- INCOMING -->
+          <div class="incoming_msg"
+               *ngIf="message.user !== loggedInUserName && message.user !== 'System'">
+            <div class="incoming_msg_img">
+              <img src="/R.png" alt="User Image" width="43" height="43" />
+            </div>
+            <div class="received_msg">
+              <div class="received_withd_msg">
+                <p>{{ message.message }}</p>
+                <span class="time_date">
+                  {{ message.user }} | {{ message.messageTime | date:'medium' }}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- OUTGOING -->
+          <div class="outgoing_msg" *ngIf="message.user === loggedInUserName">
+            <div class="sent_msg">
+              <p>{{ message.message }}</p>
+              <span class="time_date">
+                {{ message.user }} | {{ message.messageTime | date:'medium' }}
+              </span>
+            </div>
+          </div>
+
+        </ng-container>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Input -->
+  <div class="chat-input">
+    <input
+      (keydown.enter)="sendMessage()"
+      [formControl]="messageControl"
+      placeholder="Type a message..."
+    />
+    <button (click)="sendMessage()" class="msg-send-btn" type="button">
+      Send
+    </button>
+  </div>
+
+</div>
