@@ -24,15 +24,9 @@
         <div class="srch-bar">
           <div class="stylish-input-group">
             <input type="text" class="search-bar" placeholder="Search" />
-            <span class="input-group-addon">
-              <button type="button">
-                <i class="fa fa-search" aria-hidden="true"></i>
-              </button>
-            </span>
           </div>
         </div>
 
-        <!-- Connected Users List -->
         <div class="chat-people" *ngFor="let user of connectedUsers">
           <div class="chat-img">
             <img src="/R.png" alt="User Image" width="43" height="43" />
@@ -52,34 +46,33 @@
         <ng-container *ngFor="let message of messages">
 
           <!-- SYSTEM MESSAGE -->
-          <div class="text-center text-muted my-2" *ngIf="message.user === 'System'">
-            <small><i>{{ message.message }}</i></small>
+          <div class="system-msg" *ngIf="message.user === 'System'">
+            <span>{{ message.message }}</span>
           </div>
 
-          <!-- INCOMING -->
-          <div class="incoming_msg"
+          <!-- INCOMING (left side) -->
+          <div class="bubble-row incoming"
                *ngIf="message.user !== loggedInUserName && message.user !== 'System'">
-            <div class="incoming_msg_img">
-              <img src="/R.png" alt="User Image" width="43" height="43" />
-            </div>
-            <div class="received_msg">
-              <div class="received_withd_msg">
+            <img src="/R.png" class="bubble-avatar" alt="avatar" />
+            <div class="bubble-wrap">
+              <span class="bubble-name">{{ message.user }}</span>
+              <div class="bubble incoming-bubble">
                 <p>{{ message.message }}</p>
-                <span class="time_date">
-                  {{ message.user }} | {{ message.messageTime | date:'medium' }}
-                </span>
+                <span class="bubble-time">{{ message.messageTime | date:'shortTime' }}</span>
               </div>
             </div>
           </div>
 
-          <!-- OUTGOING -->
-          <div class="outgoing_msg" *ngIf="message.user === loggedInUserName">
-            <div class="sent_msg">
-              <p>{{ message.message }}</p>
-              <span class="time_date">
-                {{ message.user }} | {{ message.messageTime | date:'medium' }}
-              </span>
+          <!-- OUTGOING (right side) -->
+          <div class="bubble-row outgoing" *ngIf="message.user === loggedInUserName">
+            <div class="bubble-wrap">
+              <span class="bubble-name">You</span>
+              <div class="bubble outgoing-bubble">
+                <p>{{ message.message }}</p>
+                <span class="bubble-time">{{ message.messageTime | date:'shortTime' }}</span>
+              </div>
             </div>
+            <img src="/R.png" class="bubble-avatar" alt="avatar" />
           </div>
 
         </ng-container>
